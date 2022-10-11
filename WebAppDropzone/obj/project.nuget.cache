@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "exhU3WVkMKYSXN9vww53sPDCzkuhRAfR5ZD31Q4/0zHIsLf72XCYFUSda811W8e1uTwGkTTruQ2XeYYrfsSYdA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\santa\\RiderProjects\\WebAppDropzone\\WebAppDropzone\\WebAppDropzone.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "NU1803",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "You are running the 'restore' operation with an 'HTTP' source, 'http://10.111.15.123:5055/nuget'. Non-HTTPS access will be removed in a future version. Consider migrating to an 'HTTPS' source."
+    }
+  ]
+}

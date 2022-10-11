@@ -1,0 +1,99 @@
+﻿@model PersonModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    
+    <form asp-action="Index" asp-controller="Home" method="post" enctype="multipart/form-data" class=" form-horizontal form-bordered" id="myform" >
+        <div id="dropzone1" class="dropzone"></div>
+          <input type="text" asp-for="PersonDataModels[0].ProductName" placeholder="ProductName" class="form-control">
+               
+        <div id="dropzone2" class="dropzone"></div>
+         <input type="text" asp-for="PersonDataModels[1].ProductName" placeholder="ProductName" class="form-control">
+        @* <input type="text" asp-for="FirstName" placeholder="FirstName" class="form-control"> *@
+        @* <input type="text" asp-for="LastName" placeholder="LastName" class="form-control"> *@
+      
+        <button type="submit" id="submit" class="btn btn-sm btn-primary"><i class="fa fa-floppy-o"></i> Upload</button>
+    </form>
+     
+</div>
+
+@section Scripts
+{
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+
+    <script>
+           // function myParamName() {
+           //     return "file";
+           //  }
+           //  Dropzone.options.dropzoneForm = {
+           //      autoProcessQueue: false,
+           //      paramName: myParamName, // The name that will be used to transfer the file
+           //      uploadMultiple: true,
+           //      parallelUploads: 100,
+           //      init: function () {
+           //          console.log("active");
+           //          let wrapperThis = this;
+           //
+           //          $("#submit").click(function (e) {
+           //              e.preventDefault();
+           //              wrapperThis.processQueue();
+           //              $.form().submit()
+           //          });
+           //      },
+           //      accept: function (file, done) {
+           //          done();
+           //      }
+           //  };
+           
+           
+           Dropzone.autoDiscover = false;
+           
+           $(document).ready(() => {
+              const dropzones = []
+              $('.dropzone').each(function(i, el){
+              let myDropzone = new Dropzone(el, {
+                  url: window.location.pathname,
+                  autoProcessQueue: false,
+                  uploadMultiple: true,
+                  parallelUploads: 100,
+                  maxFiles: 100,
+                  paramName:"PersonDataModels["+i+"].Files",
+              })
+              dropzones.push(myDropzone)
+           })
+           
+           
+             document.querySelector("button[type=submit]").addEventListener("click", function(e) {
+               e.preventDefault();
+               e.stopPropagation();
+               let form = new FormData($('form')[0])
+           
+               dropzones.forEach((dropzone,dropzoneIndex) => {
+                 dropzone.files.forEach((file, i) => {
+                   form.append("PersonDataModels["+dropzoneIndex+"].Files" , file)
+                 })
+               })
+               
+               console.log("sub")
+               $.ajax({
+                   method: 'POST',
+                   data: form,
+                   processData: false,
+                   contentType: false,
+                   success: function(response) {
+                       window.location.replace(response)
+                   }
+               });
+             });
+           })
+           
+           
+           
+           
+    
+    </script>
+
+}
