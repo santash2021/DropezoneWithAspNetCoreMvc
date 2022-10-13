@@ -7,16 +7,17 @@
     <h1 class="display-4">Welcome</h1>
     
     <form asp-action="Index" asp-controller="Home" method="post" enctype="multipart/form-data" class=" form-horizontal form-bordered" id="myform" >
-        <div id="dropzone1" class="dropzone"></div>
-          <input type="text" asp-for="PersonDataModels[0].ProductName" placeholder="ProductName" class="form-control">
+       
+       
                
-        <div id="dropzone2" class="dropzone"></div>
-         <input type="text" asp-for="PersonDataModels[1].ProductName" placeholder="ProductName" class="form-control">
+      
         @* <input type="text" asp-for="FirstName" placeholder="FirstName" class="form-control"> *@
         @* <input type="text" asp-for="LastName" placeholder="LastName" class="form-control"> *@
       
         <button type="submit" id="submit" class="btn btn-sm btn-primary"><i class="fa fa-floppy-o"></i> Upload</button>
     </form>
+    
+    <button class="btn btn-secondary add-btn">Add</button>
      
 </div>
 
@@ -50,20 +51,36 @@
            
            
            Dropzone.autoDiscover = false;
+           let indexss = 0;
            
            $(document).ready(() => {
               const dropzones = []
-              $('.dropzone').each(function(i, el){
-              let myDropzone = new Dropzone(el, {
-                  url: window.location.pathname,
-                  autoProcessQueue: false,
-                  uploadMultiple: true,
-                  parallelUploads: 100,
-                  maxFiles: 100,
-                  paramName:"PersonDataModels["+i+"].Files",
-              })
-              dropzones.push(myDropzone)
-           })
+              
+              
+             
+              
+              $(".add-btn").on("click",function (){
+                  let templ = `<div id="dropzone${indexss}" class="dropzone"></div>`;
+                  $("form").append(templ)
+                   console.log(templ)
+                  let myDropzone = new Dropzone(`#dropzone${indexss}`, {
+                                    url: window.location.pathname,
+                                    autoProcessQueue: false,
+                                    uploadMultiple: true,
+                                    parallelUploads: 100,
+                                    maxFiles: 100,
+                                    paramName:`PersonDataModels[${indexss}].Files`
+                                    
+                                })
+                                 dropzones.push(myDropzone)
+                                 indexss++;
+                  console.log(indexss + "INDEX")
+              });
+              
+             
+              
+             
+          
            
            
              document.querySelector("button[type=submit]").addEventListener("click", function(e) {
@@ -88,7 +105,8 @@
                    }
                });
              });
-           })
+              })
+ 
            
            
            
